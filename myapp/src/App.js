@@ -7,12 +7,12 @@ class App extends Component {
   render () {
     ReactDOM.render(
       /** Result:
-       * <h1 id="my-heading">
+       * <h1 id="my-heading" class="pretty" for="me" style="color: color: rgb(59, 89, 152);">
        *   <span><em>Hell</em>o</span>, world!
        * </h1>
       */
       React.DOM.h1(
-        { id: 'my-heading' },
+        { className: 'pretty', htmlFor: 'me', style: { color: '#3b5998' } },
         React.DOM.span(null,
           React.DOM.em(null, 'Hell'),
           'o'
