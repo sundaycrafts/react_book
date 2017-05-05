@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
 
 const MyComponent = React.createClass({
-  render: () => {
-    return React.DOM.span(null, 'My first Custom Component')
+  render: function () {
+    return React.DOM.span(null, `I'm ${this.props.name}.`)
   }
 })
 
 class App extends Component {
   render () {
     ReactDOM.render(
-      React.createElement(MyComponent),
+      React.createElement(MyComponent, { name: 'Bob' }),
       document.getElementById('root')
     )
   }
@@ -32,4 +32,4 @@ class App extends Component {
 //  }
 }
 
-export default App;
+export default App
