@@ -4,8 +4,14 @@ import logo from './logo.svg'
 import './App.css'
 
 const MyComponent = React.createClass({
+  getDefaultProps: function () {
+    return {
+      middleName: '',
+      address: 'NONE'
+    }
+  },
   render: function () {
-    return React.DOM.span(null, `I'm ${this.props.name}.`)
+    return React.DOM.span(null, `Hello my address is ${this.props.address}.`)
   }
 })
 
