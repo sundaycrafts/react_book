@@ -20,6 +20,11 @@ const TextAreaCounter = React.createClass({
       text: ev.target.value
     })
   },
+  componentDidUpdate: function (oldProps, oldState) {
+    if (this.state.text.length > 3) {
+      this.replaceState(oldState)
+    }
+  },
   render: function () {
     return React.DOM.div(null,
       React.DOM.textarea({
