@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import logMixin from './log-mixin'
 
-export default class TextAreaCounter extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      text: this.props.defaultValue,
-      name: 'TextAreaCounter'
-    }
-  }
-
-  mixins: [logMixin]
+class TextAreaCounter extends Component {
+  static name: 'TextAreaCounter'
 
   static defaultProps: {
     defaultValue: ''
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      text: this.props.defaultValue
+    }
   }
 
   render () {
@@ -45,7 +44,7 @@ export default class TextAreaCounter extends Component {
   /**
    * Life-cycle event(s)
    */
-  componentDidUpdate (oldProps, oldState) {
+  componentDidUpdate (oldProps, oldState) { // will be overriden by logMixin
     if (this.state.text.length > 3) {
       /**
        * attention: replaceState is duplicated
@@ -56,3 +55,5 @@ export default class TextAreaCounter extends Component {
     }
   }
 }
+
+export default logMixin(TextAreaCounter)

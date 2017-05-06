@@ -1,20 +1,38 @@
-export default {
-  _log: function (methodName, args) {
-    console.log(`${this.name}::${methodName},`, args)
-  },
-  componentWillUpdate: function () {
-    this._log('componentWillUpdate', arguments)
-  },
-  componentDidUpdate: function () {
-    this._log('componentDidUpdate', arguments)
-  },
-  componentWillMount: function () {
-    this._log('componentWillMount', arguments)
-  },
-  componentDidMount: function () {
-    this._log('componentDidMount', arguments)
-  },
-  componentWillUnmount: function () {
-    this._log('componentWillUnmount', arguments)
+/**
+ * Inheritance Inversion pattern
+ * http://postd.cc/react-higher-order-components-in-depth/
+ */
+export default function (WrappedComponent) {
+  return class Enhancer extends WrappedComponent {
+    render () {
+      return super.render()
+    }
+
+    _log (methodName, args) {
+      console.log(`${this.name}::${methodName},`, args)
+    }
+
+    /**
+     * Life-cycle event(s)
+     */
+    componentWillUpdate () {
+      this._log('componentWillUpdate', arguments)
+    }
+
+    componentDidUpdate () {
+      this._log('componentDidUpdate', arguments)
+    }
+
+    componentWillMount () {
+      this._log('componentWillMount', arguments)
+    }
+
+    componentDidMount () {
+      this._log('componentDidMount', arguments)
+    }
+
+    componentWillUnmount () {
+      this._log('componentWillUnmount', arguments)
+    }
   }
 }
