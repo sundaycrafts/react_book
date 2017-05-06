@@ -3,22 +3,38 @@ import ReactDOM from 'react-dom'
 import logo from './logo.svg'
 import './App.css'
 
-const MyComponent = React.createClass({
+const TextAreaCounter = React.createClass({
+  propTypes: {
+    text: React.PropTypes.string
+  },
   getDefaultProps: function () {
     return {
-      middleName: '',
-      address: 'NONE'
+      text: ''
     }
   },
+  getInitialState: function () {
+    return { text: this.props.text }
+  },
+  _textChange: function (ev) {
+    this.setState({
+      text: ev.target.value
+    })
+  },
   render: function () {
-    return React.DOM.span(null, `Hello my address is ${this.props.address}.`)
+    return React.DOM.div(null,
+      React.DOM.textarea({
+        value: this.state.text,
+        onChange: this._textChange
+      }),
+      React.DOM.h3(null, this.state.text.length)
+    )
   }
 })
 
 class App extends Component {
   render () {
     ReactDOM.render(
-      React.createElement(MyComponent, { name: 'Bob' }),
+      React.createElement(TextAreaCounter, { text: 'Bob' }),
       document.getElementById('root')
     )
   }
