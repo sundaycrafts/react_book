@@ -9,11 +9,11 @@ const TextAreaCounter = React.createClass({
   },
   getDefaultProps: function () {
     return {
-      text: ''
+      defaultValue: ''
     }
   },
   getInitialState: function () {
-    return { text: this.props.text }
+    return { text: this.props.defaultValue }
   },
   _textChange: function (ev) {
     this.setState({
@@ -34,7 +34,7 @@ const TextAreaCounter = React.createClass({
 class App extends Component {
   render () {
     ReactDOM.render(
-      React.createElement(TextAreaCounter, { text: 'Bob' }),
+      React.createElement(TextAreaCounter, { defaultValue: 'Bob' }),
       document.getElementById('root')
     )
   }
