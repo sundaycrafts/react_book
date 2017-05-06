@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import logMixin from './log-mixin'
+import Count from './count'
 
 class TextAreaCounter extends Component {
   static name: 'TextAreaCounter'
@@ -16,12 +17,21 @@ class TextAreaCounter extends Component {
   }
 
   render () {
+    /**
+     * conditinal Reandaring: method 2
+     * https://facebook.github.io/react/docs/conditional-rendering.html#element-variables
+     */
+    let counter = null
+    if (this.state.text.length > 0) {
+      counter = <Count count={this.state.text.length} />
+    }
+
     return React.DOM.div(null,
       React.DOM.textarea({
         value: this.state.text,
         onChange: this._textChange
       }),
-      React.DOM.h3(null, this.state.text.length)
+      counter
     )
   }
 
