@@ -1,23 +1,26 @@
 import React, { Component } from 'react'
-import bookList from '../data/bookList.json'
 
 class Table extends Component {
-  render () {
-    let theads = [
-      'Title', 'Author', 'Language', 'Publish', 'sell'
-    ]
+  displayName = 'Excel'
+  state = {
+    data: this.props.initialData,
+    sortby: null,
+    decending: false,
+    edit: null
+  }
 
+  render () {
     return (
       <table>
-        <thead>
+        <thead onClick={this._sort}>
           <tr>
-            {theads.map((title, idx) =>
+            {this.props.theads.map((title, idx) =>
               <th key={idx}>{title}</th>
             )}
           </tr>
         </thead>
         <tbody>
-          {bookList.map((row, idx) =>
+          {this.state.data.map((row, idx) =>
             <tr key={idx}>
               {row.map((cell, idx) =>
                 <td key={idx}>{cell}</td>
@@ -27,6 +30,13 @@ class Table extends Component {
         </tbody>
       </table>
     )
+  }
+
+  _sort = e => {
+    let column = e.target.cellIndex
+    let data = Array.from(this.state.data)
+    data.sort((a, b) => a[column] > b[column] ? 1 : -1)
+    this.setState({ data: data })
   }
 }
 
