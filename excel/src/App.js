@@ -1,8 +1,9 @@
+/* @flow */
 import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Table from './components/Table'
-import bookList from './data/bookList.json'
+import bookList from './data/bookList'
 
 class App extends Component {
   render () {

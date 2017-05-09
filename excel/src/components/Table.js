@@ -1,7 +1,15 @@
+/* @flow */
 import React, { Component } from 'react'
+
+type Props = {
+  initialData: Array<string[]>,
+  theads: Array<string>
+}
 
 class Table extends Component {
   displayName = 'Excel'
+  props: Props
+
   state = {
     data: this.props.initialData,
     sortby: null,
@@ -32,7 +40,7 @@ class Table extends Component {
     )
   }
 
-  _sort = e => {
+  _sort = (e: Event & { target: HTMLTableCellElement }) => {
     let column = e.target.cellIndex
     let data = Array.from(this.state.data)
     data.sort((a, b) => a[column] > b[column] ? 1 : -1)
