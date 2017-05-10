@@ -50,10 +50,10 @@ class Table extends Component {
               {row.map((cell, idx) =>
                 <td key={idx} data-row={rowidx}>
                   {edit && edit.row === rowidx && edit.cell === idx
-                    ? {cell}
-                    : <form onSubmit={this._save}>
+                    ? <form onSubmit={this._save}>
                       <input type='text' defaultValue={cell} />
                     </form>
+                    : cell
                   }
                 </td>
               )}
@@ -69,7 +69,10 @@ class Table extends Component {
     let data = Array.from(this.state.data)
     let descending = this.state.sortby === column && !this.state.descending
 
-    data.sort((a, b) => descending ? (a[column] > b[column] ? 1 : -1) : (a[column] < b[column] ? 1 : -1))
+    data.sort((a, b) => descending
+      ? (a[column] > b[column] ? 1 : -1)
+      : (a[column] < b[column] ? 1 : -1)
+    )
 
     this.setState({
       data: data,
@@ -78,7 +81,7 @@ class Table extends Component {
     })
   }
 
-  _showEditor (e: Event & { target: HTMLTableCellElement }) {
+  _showEditor = (e: Event & { target: HTMLTableCellElement }) => {
     this.setState({
       edit: {
         row: parseInt(e.target.dataset.row, 10),
@@ -87,7 +90,16 @@ class Table extends Component {
     })
   }
 
-  _save () {
+  _save = (e: Event & { target: any }) => {
+    e.preventDefault()
+    let input = e.target.firstChild
+    let data = Array.from(this.state.data)
+    data[this.state.edit.row][this.state.edit.cell] = input.value
+
+    this.setState({
+      edit: null,
+      data: data
+    })
   }
 }
 
