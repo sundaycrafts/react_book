@@ -12,7 +12,10 @@ type State = {
   data: DataList,
   sortby: ?number,
   descending: boolean,
-  edit: any
+  edit: ?{
+    row: number,
+    cell: number
+  }
 }
 
 class Table extends Component {
@@ -27,6 +30,8 @@ class Table extends Component {
   }
 
   render () {
+    let edit = this.state.edit
+
     return (
       <table>
         <thead onClick={this._sort}>
@@ -39,11 +44,18 @@ class Table extends Component {
             )}
           </tr>
         </thead>
-        <tbody>
-          {this.state.data.map((row, idx) =>
-            <tr key={idx}>
+        <tbody onDoubleClick={this._showEditor}>
+          {this.state.data.map((row, rowidx) =>
+            <tr key={rowidx}>
               {row.map((cell, idx) =>
-                <td key={idx}>{cell}</td>
+                <td key={idx} data-row={rowidx}>
+                  {edit && edit.row === rowidx && edit.cell === idx
+                    ? {cell}
+                    : <form onSubmit={this._save}>
+                      <input type='text' defaultValue={cell} />
+                    </form>
+                  }
+                </td>
               )}
             </tr>
           )}
@@ -64,6 +76,18 @@ class Table extends Component {
       sortby: column,
       descending: descending
     })
+  }
+
+  _showEditor (e: Event & { target: HTMLTableCellElement }) {
+    this.setState({
+      edit: {
+        row: parseInt(e.target.dataset.row, 10),
+        cell: e.target.cellIndex
+      }
+    })
+  }
+
+  _save () {
   }
 }
 
