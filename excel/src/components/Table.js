@@ -1,19 +1,28 @@
 /* @flow */
 import React, { Component } from 'react'
 
+type DataList = Array<string[]>
+
 type Props = {
-  initialData: Array<string[]>,
+  initialData: DataList,
   theads: Array<string>
+}
+
+type State = {
+  data: DataList,
+  sortby: ?number,
+  descending: boolean,
+  edit: any
 }
 
 class Table extends Component {
   displayName = 'Excel'
   props: Props
 
-  state = {
+  state: State = {
     data: this.props.initialData,
     sortby: null,
-    decending: false,
+    descending: false,
     edit: null
   }
 
@@ -23,7 +32,10 @@ class Table extends Component {
         <thead onClick={this._sort}>
           <tr>
             {this.props.theads.map((title, idx) =>
-              <th key={idx}>{title}</th>
+              <th key={idx}>
+                {title}{this.state.sortby === idx &&
+                  (this.state.descending ? '\u2191' : '\u2193')}
+              </th>
             )}
           </tr>
         </thead>
@@ -43,8 +55,15 @@ class Table extends Component {
   _sort = (e: Event & { target: HTMLTableCellElement }) => {
     let column = e.target.cellIndex
     let data = Array.from(this.state.data)
-    data.sort((a, b) => a[column] > b[column] ? 1 : -1)
-    this.setState({ data: data })
+    let descending = this.state.sortby === column && !this.state.descending
+
+    data.sort((a, b) => descending ? (a[column] > b[column] ? 1 : -1) : (a[column] < b[column] ? 1 : -1))
+
+    this.setState({
+      data: data,
+      sortby: column,
+      descending: descending
+    })
   }
 }
 
