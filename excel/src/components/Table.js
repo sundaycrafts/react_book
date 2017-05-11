@@ -15,7 +15,8 @@ type State = {
   edit: ?{
     row: number,
     cell: number
-  }
+  },
+  search: boolean
 }
 
 class Table extends Component {
@@ -26,10 +27,40 @@ class Table extends Component {
     data: this.props.initialData,
     sortby: null,
     descending: false,
-    edit: null
+    edit: null,
+    search: false
   }
 
   render () {
+    return (
+      <div>
+        {this._renderToolbar()}
+        {this._renderTable()}
+      </div>
+    )
+  }
+
+  _renderToolbar () {
+    return (
+      <button onClick={this._toggleSearch} className='toolebar'>Search</button>
+    )
+  }
+
+  _renderSearch = () => {
+    if (this.state.search) return null
+
+    return (
+      <tr onChange={this._search}>
+        {this.props.theads.map((_ignore, idx) =>
+          <td key={idx}>
+            <input type='text' data-idx={idx} />
+          </td>
+        )}
+      </tr>
+    )
+  }
+
+  _renderTable () {
     let edit = this.state.edit
 
     return (
@@ -45,6 +76,7 @@ class Table extends Component {
           </tr>
         </thead>
         <tbody onDoubleClick={this._showEditor}>
+          {this._renderSearch()}
           {this.state.data.map((row, rowidx) =>
             <tr key={rowidx}>
               {row.map((cell, idx) =>
@@ -100,6 +132,14 @@ class Table extends Component {
       edit: null,
       data: data
     })
+  }
+
+  _toggleSearch = (e: Event & { target: any }) => {
+    console.log('toggle search.')
+  }
+
+  _search = (e: Event & { target: any }) => {
+    console.log('searching...')
   }
 }
 
