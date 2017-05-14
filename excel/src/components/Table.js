@@ -54,7 +54,11 @@ class Table extends Component {
 
   _renderToolbar () {
     return (
-      <button onClick={this._toggleSearch} className='toolebar'>Search</button>
+      <div>
+        <button onClick={this._toggleSearch} className='toolebar'>Search</button>
+        <a onClick={this._download.bind(this, 'json')} href='data.json'>Save as JSON</a>
+        <a onClick={this._download.bind(this, 'csv')} href='data.csv'>Save as CSV</a>
+      </div>
     )
   }
 
@@ -196,6 +200,23 @@ class Table extends Component {
       }
       this.setState(this._log[idx])
     }, 1000)
+  }
+
+  _download = (format, ev) => {
+    let contents = format === 'json'
+      ? JSON.stringify(this.state.data)  
+      : this.state.data.reduce((result, row) => {
+        return result
+          + row.reduce((rowresult, cell, idx) => {
+            return `${rowresult}"${cell.replace(/"/g, '""')}"${idx < row.length - 1 ? ',' : ''}`
+          }, '')
+          + '\n'
+      }, '')
+
+    let URL = window.URL || window.webkitURL
+    let blob = new Blob([contents], { type: `text/${format}`})
+    ev.target.href = URL.createObjectURL(blob)
+    ev.target.download = `data.${format}`
   }
 }
 
