@@ -9,14 +9,15 @@ type Props = {
 }
 
 type State = {
-  data: DataList,
+  data: ?DataList,
   sortby: ?number,
   descending: boolean,
   edit: ?{
     row: number,
     cell: number
   },
-  search: boolean
+  search: boolean,
+  preSearchData: ?DataList
 }
 
 class Table extends Component {
@@ -28,7 +29,8 @@ class Table extends Component {
     sortby: null,
     descending: false,
     edit: null,
-    search: false
+    search: false,
+    preSearchData: this.props.initialData
   }
 
   render () {
@@ -135,11 +137,32 @@ class Table extends Component {
   }
 
   _toggleSearch = (e: Event & { target: any }) => {
-    console.log('toggle search.')
+    if (this.state.search) { // on show
+      this.setState({
+        search: false,
+        preSearchData: this.props.initialData
+      })
+    } else { // on hide
+      this.setState({
+        search: true,
+        data: this.props.initialData
+      })
+    }
   }
 
   _search = (e: Event & { target: any }) => {
-    console.log('searching...')
+    let needle = e.target.value.toLowerCase()
+    if (!needle) {
+      this.setState({ data: this.state.preSearchData })
+      return
+    }
+
+    let idx = e.target.dataset.idx
+    this.setState({
+      data: this.state.preSearchData.filter(row => {
+        return row[idx].toString().toLowerCase().indexOf(needle) > -1
+      })
+    })
   }
 }
 
