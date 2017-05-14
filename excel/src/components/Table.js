@@ -33,6 +33,8 @@ class Table extends Component {
     preSearchData: this.props.initialData
   }
 
+  _log = []
+
   render () {
     return (
       <div>
@@ -40,6 +42,14 @@ class Table extends Component {
         {this._renderTable()}
       </div>
     )
+  }
+
+  componentDidMount () {
+    document.onkeydown = e => {
+      if (e.altKey && e.shiftKey && e.keyCode === 82 ) {
+        this._replay()
+      }
+    }
   }
 
   _renderToolbar () {
@@ -108,7 +118,7 @@ class Table extends Component {
       : (a[column] < b[column] ? 1 : -1)
     )
 
-    this.setState({
+    this._logSetState({
       data: data,
       sortby: column,
       descending: descending
@@ -116,7 +126,7 @@ class Table extends Component {
   }
 
   _showEditor = (e: Event & { target: HTMLTableCellElement }) => {
-    this.setState({
+    this._logSetState({
       edit: {
         row: parseInt(e.target.dataset.row, 10),
         cell: e.target.cellIndex
@@ -130,7 +140,7 @@ class Table extends Component {
     let data = Array.from(this.state.data)
     data[this.state.edit.row][this.state.edit.cell] = input.value
 
-    this.setState({
+    this._logSetState({
       edit: null,
       data: data
     })
@@ -138,12 +148,12 @@ class Table extends Component {
 
   _toggleSearch = (e: Event & { target: any }) => {
     if (this.state.search) { // on show
-      this.setState({
+      this._logSetState({
         search: false,
         preSearchData: this.props.initialData
       })
     } else { // on hide
-      this.setState({
+      this._logSetState({
         search: true,
         data: this.props.initialData
       })
@@ -153,16 +163,39 @@ class Table extends Component {
   _search = (e: Event & { target: any }) => {
     let needle = e.target.value.toLowerCase()
     if (!needle) {
-      this.setState({ data: this.state.preSearchData })
+      this._logSetState({ data: this.state.preSearchData })
       return
     }
 
     let idx = e.target.dataset.idx
-    this.setState({
+    this._logSetState({
       data: this.state.preSearchData.filter(row => {
         return row[idx].toString().toLowerCase().indexOf(needle) > -1
       })
     })
+  }
+
+  _logSetState = (newState: any) => {
+    this._log.push(JSON.parse(JSON.stringify(
+      this._log.length === 0 ? this.state : newState
+    )))
+    this.setState(newState)
+  }
+
+  _replay = () => {
+    if (this._log.length === 0) {
+      console.warn("Don't logging yet.")
+      return
+    }
+
+    let idx = -1
+    let interval = setInterval(() => {
+      idx++
+      if (idx === this._log.length -1 ) { // reach tail
+        clearInterval(interval)
+      }
+      this.setState(this._log[idx])
+    }, 1000)
   }
 }
 
