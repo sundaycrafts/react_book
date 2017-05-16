@@ -1,27 +1,23 @@
 /* @flow */
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './App.css'
-import Excel from './components/Excel'
-import data from './data/bookList.json'
+import Logo from './components/Logo'
+import Button from './components/Button'
 
 class App extends Component {
   render () {
-    let theads = [
-      'Title', 'Author', 'Language', 'Publish', 'sell'
-    ]
-
     return (
       <div className='App'>
         <div className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          <h2>Welcome to React</h2>
+          <Logo />
+          <h2>Component List</h2>
         </div>
-        <p className='App-intro'>
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
 
-        <Excel initialData={data} theads={theads} />
+        <h2>Logo</h2>
+        <Logo />
+
+        <h2>Button</h2>
+        <Button classnames='custom' />
       </div>
     )
   }
