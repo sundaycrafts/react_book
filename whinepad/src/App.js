@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Logo from './components/Logo'
 import Button from './components/Button'
+import Suggest from './components/Suggest'
 
 class App extends Component {
   render () {
@@ -18,6 +19,9 @@ class App extends Component {
 
         <h2>Button</h2>
         <Button classnames='custom' />
+
+        <h2>Suggest</h2>
+        <Suggest options={['eenie', 'meenie', 'miney', 'mo']} />
       </div>
     )
   }
