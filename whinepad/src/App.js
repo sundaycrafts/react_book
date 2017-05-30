@@ -7,6 +7,7 @@ import Suggest from './components/Suggest'
 import Rating from './components/Rating'
 import FormInput from './components/FormInput'
 import Form from './components/Form'
+import Actions from './components/Actions'
 
 class App extends Component {
   render () {
@@ -70,6 +71,8 @@ class App extends Component {
             {label: 'あいさつ', id: 'freetext'}
           ]}
           initialData={{rateme: 4, freetext: 'こんにちは'}} />
+
+        <Actions onAction={type => window.alert(type)} />
       </div>
 
     )
