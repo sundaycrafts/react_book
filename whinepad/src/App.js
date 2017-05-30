@@ -8,6 +8,7 @@ import Rating from './components/Rating'
 import FormInput from './components/FormInput'
 import Form from './components/Form'
 import Actions from './components/Actions'
+import Dialog from './components/Dialog'
 
 class App extends Component {
   render () {
@@ -73,6 +74,11 @@ class App extends Component {
           initialData={{rateme: 4, freetext: 'こんにちは'}} />
 
         <Actions onAction={type => window.alert(type)} />
+
+        <Dialog
+          header='Dialog example'
+          confirmLabel='確認'
+          onAction={type => window.alert(type)}>こんにちは</Dialog>
       </div>
 
     )
