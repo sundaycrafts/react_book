@@ -22,7 +22,7 @@ class App extends Component {
         <Logo />
 
         <h2>Button</h2>
-        <Button classnames='custom' />
+        <Button classnames='custom'>ボタン</Button>
 
         <h2>Suggest</h2>
         <Suggest options={['eenie', 'meenie', 'miney', 'mo']} />

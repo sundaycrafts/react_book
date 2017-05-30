@@ -13,7 +13,7 @@ class Button extends Component {
 
     return props.href
       ? <a {...props} className={cssclasses} />
-      : <button {...props} className={cssclasses} />
+      : <button {...props} className={cssclasses}>{this.props.children}</button>
   }
 }
 
