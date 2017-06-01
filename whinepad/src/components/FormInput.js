@@ -3,6 +3,12 @@ import Suggest from './Suggest'
 import Rating from './Rating'
 
 class FormInput extends Component {
+  getValue () {
+    return 'value' in this.refs.input
+      ? this.refs.input.value
+      : this.refs.input.getValue()
+  }
+
   render () {
     const common = {
       id: this.props.id,

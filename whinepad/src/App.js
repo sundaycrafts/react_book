@@ -9,6 +9,12 @@ import FormInput from './components/FormInput'
 import Form from './components/Form'
 import Actions from './components/Actions'
 import Dialog from './components/Dialog'
+import Excel from './components/Excel'
+import schema from './data/schema'
+
+let data = {}
+schema.forEach(item => { data[item.id] = item.sample })
+data = [data]
 
 class App extends Component {
   render () {
@@ -79,6 +85,11 @@ class App extends Component {
           header='Dialog example'
           confirmLabel='確認'
           onAction={type => window.alert(type)}>こんにちは</Dialog>
+
+        <Excel
+          schema={schema}
+          initialData={data}
+          onDataChange={() => console.log('change Excel')} />
       </div>
 
     )

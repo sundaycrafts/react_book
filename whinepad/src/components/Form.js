@@ -8,6 +8,7 @@ class Form extends Component {
     this.props.fields.forEach(field => {
       data[field.id] = this.refs[field.id].getValue()
     })
+    return data
   }
 
   render () {
